@@ -56,8 +56,8 @@ struct nvhost_master {
 
 extern struct nvhost_master *nvhost;
 
-void nvhost_debug_init(struct nvhost_master *master);
-void nvhost_debug_dump(struct nvhost_master *master);
+//void nvhost_debug_init(struct nvhost_master *master);
+//void nvhost_debug_dump(struct nvhost_master *master);
 
 #define host_device_op(host)	(host->op.nvhost_dev)
 

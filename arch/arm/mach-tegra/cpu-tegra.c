@@ -57,6 +57,7 @@ static bool is_suspended;
 static int suspend_index;
 
 static bool force_policy_max = true;
+static bool coldstart = true;
 
 static int force_policy_max_set(const char *arg, const struct kernel_param *kp)
 {
@@ -697,7 +698,10 @@ static int tegra_cpu_init(struct cpufreq_policy *policy)
 		register_pm_notifier(&tegra_cpu_pm_notifier);
 	}
 
-	policy->max = 1300000;
+	if (coldstart == true) {
+		policy->max = 1300000;
+		coldstart = false;
+	}
 
 	return 0;
 }

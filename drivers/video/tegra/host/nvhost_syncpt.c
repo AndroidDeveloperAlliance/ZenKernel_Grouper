@@ -223,7 +223,7 @@ int nvhost_syncpt_wait_timeout(struct nvhost_syncpt *sp, u32 id,
 						"is timeout %d too low?\n",
 						low_timeout);
 				}
-				nvhost_debug_dump(syncpt_to_dev(sp));
+				//nvhost_debug_dump(syncpt_to_dev(sp));
 				BUG();
 			}
 			check_count++;

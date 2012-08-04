@@ -205,13 +205,13 @@ int nvhost_init_t30_channel_support(struct nvhost_master *host)
 
 	return result;
 }
-int nvhost_init_t30_debug_support(struct nvhost_master *host)
+/*int nvhost_init_t30_debug_support(struct nvhost_master *host)
 {
 	nvhost_init_t20_debug_support(host);
 	host->op.debug.debug_init = nvhost_scale3d_debug_init;
 
 	return 0;
-}
+}*/
 
 struct nvhost_device *t30_get_nvhost_device(struct nvhost_master *host,
 	char *name)
@@ -237,9 +237,9 @@ int nvhost_init_t30_support(struct nvhost_master *host)
 	err = host1x_init_cdma_support(host);
 	if (err)
 		return err;
-	err = nvhost_init_t30_debug_support(host);
-	if (err)
-		return err;
+	//err = nvhost_init_t30_debug_support(host);
+	//if (err)
+	//	return err;
 	err = host1x_init_syncpt_support(host);
 	if (err)
 		return err;

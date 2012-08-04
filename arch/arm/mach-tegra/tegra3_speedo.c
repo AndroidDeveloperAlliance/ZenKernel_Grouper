@@ -173,6 +173,13 @@ static void fuse_speedo_calib(u32 *speedo_g, u32 *speedo_lp)
 
 static void rev_sku_to_speedo_ids(int rev, int sku)
 {
+
+			/* Utilize existing clock tables, forcing cpu and soc IDs*/
+                              cpu_speedo_id = 7;
+                              soc_speedo_id = 2;
+                              threshold_index = 7;
+return;
+
 	switch (rev) {
 	case TEGRA_REVISION_A01: /* any A01 */
 		cpu_speedo_id = 0;
@@ -511,7 +518,7 @@ int tegra_package_id(void)
  */
 static const int cpu_speedo_nominal_millivolts[] =
 /* speedo_id 0,    1,    2,    3,    4,    5,    6,    7,    8,   9,  10,  11,   12,   13 */
-	{ 1125, 1150, 1150, 1150, 1237, 1237, 1237, 1150, 1150, 912, 850, 850, 1237, 1237};
+	{ 1125, 1150, 1150, 1150, 1275, 1250, 1237, 1275, 1150, 912, 850, 850, 1237, 1237};
 
 int tegra_cpu_speedo_mv(void)
 {
@@ -521,6 +528,8 @@ int tegra_cpu_speedo_mv(void)
 
 int tegra_core_speedo_mv(void)
 {
+	return 1250;
+
 	switch (soc_speedo_id) {
 	case 0:
 		return 1200;

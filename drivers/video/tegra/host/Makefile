@@ -8,7 +8,6 @@ nvhost-objs = \
 	nvhost_job.o \
 	bus.o \
 	dev.o \
-	debug.o \
 	bus_client.o
 
 obj-$(CONFIG_TEGRA_GRHOST) += mpe/

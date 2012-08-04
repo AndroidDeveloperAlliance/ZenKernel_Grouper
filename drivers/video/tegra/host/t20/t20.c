@@ -219,9 +219,9 @@ int nvhost_init_t20_support(struct nvhost_master *host)
 	err = host1x_init_cdma_support(host);
 	if (err)
 		return err;
-	err = nvhost_init_t20_debug_support(host);
-	if (err)
-		return err;
+	//err = nvhost_init_t20_debug_support(host);
+	//if (err)
+		//return err;
 	err = host1x_init_syncpt_support(host);
 	if (err)
 		return err;

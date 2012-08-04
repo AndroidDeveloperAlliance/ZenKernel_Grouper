@@ -125,12 +125,12 @@ static void trace_write_cmdbufs(struct nvhost_job *job)
 
 	for (i = 0; i < job->num_gathers; i++) {
 		struct nvhost_channel_gather *gather = &job->gathers[i];
-		if (nvhost_debug_trace_cmdbuf) {
+		/*if (nvhost_debug_trace_cmdbuf) {
 			handle.handle = nvmap_id_to_handle(gather->mem_id);
 			mem = nvmap_mmap(&handle);
 			if (IS_ERR_OR_NULL(mem))
 				mem = NULL;
-		};
+		};*/
 
 		if (mem) {
 			u32 i;
@@ -386,14 +386,14 @@ static int nvhost_ioctl_channel_flush(
 		return err;
 	}
 
-	if (nvhost_debug_null_kickoff_pid == current->tgid)
-		null_kickoff = 1;
+	//if (nvhost_debug_null_kickoff_pid == current->tgid)
+	//	null_kickoff = 1;
 	ctx->job->null_kickoff = null_kickoff;
 
-	if ((nvhost_debug_force_timeout_pid == current->tgid) &&
+	/*if ((nvhost_debug_force_timeout_pid == current->tgid) &&
 	    (nvhost_debug_force_timeout_channel == ctx->ch->chid)) {
 		ctx->timeout = nvhost_debug_force_timeout_val;
-	}
+	}*/
 
 	trace_write_cmdbufs(ctx->job);
 

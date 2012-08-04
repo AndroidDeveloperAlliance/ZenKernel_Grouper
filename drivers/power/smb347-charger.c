@@ -119,6 +119,7 @@ static ssize_t smb347_reg_show(struct device *dev, struct device_attribute *attr
 /* Global variables */
 static struct smb347_charger *charger;
 static struct workqueue_struct *smb347_wq;
+static int force_fast_charge = 0;
 
 /* Sysfs interface */
 static DEVICE_ATTR(reg_status, S_IWUSR | S_IRUGO, smb347_reg_show, NULL);
@@ -693,22 +694,22 @@ static int cable_type_detect(void)
 							success = battery_callback(ac_cable);
 #ifdef TOUCH_CALLBACK_ENABLED
                                              touch_callback(ac_cable);
-#endif 
+#endif
 					} else if(retval == APSD_DCP) {
 							printk("Cable: DCP\n");
 							success = battery_callback(ac_cable);
 #ifdef TOUCH_CALLBACK_ENABLED
                                              touch_callback(ac_cable);
-#endif 
+#endif
 
 					} else if(retval == APSD_OTHER) {
 							printk("Cable: OTHER\n");
 					} else if(retval == APSD_SDP) {
 							printk("Cable: SDP\n");
-							success = battery_callback(usb_cable);
+							success = battery_callback( (force_fast_charge != 0) ? ac_cable : usb_cable );
 #ifdef TOUCH_CALLBACK_ENABLED
-                                             touch_callback(usb_cable);
-#endif 
+                                             touch_callback( (force_fast_charge != 0) ? ac_cable : usb_cable );
+#endif
 
 					} else
 							printk("Unkown Plug In Cable type !\n");

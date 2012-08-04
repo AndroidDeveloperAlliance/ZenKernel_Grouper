@@ -514,7 +514,7 @@ static int __devinit nvhost_probe(struct nvhost_device *dev)
 	for (i = 0; i < host->dev->num_clks; i++)
 		clk_disable(host->dev->clk[0]);
 
-	nvhost_debug_init(host);
+	//nvhost_debug_init(host);
 
 	dev_info(&dev->dev, "initialized\n");
 	return 0;
