@@ -56,7 +56,7 @@ static DEFINE_MUTEX(tegra_cpu_lock);
 static bool is_suspended;
 static int suspend_index;
 
-static bool force_policy_max;
+static bool force_policy_max = true;
 
 static int force_policy_max_set(const char *arg, const struct kernel_param *kp)
 {
@@ -85,7 +85,7 @@ static struct kernel_param_ops policy_ops = {
 module_param_cb(force_policy_max, &policy_ops, &force_policy_max, 0644);
 
 
-static unsigned int cpu_user_cap;
+static unsigned int cpu_user_cap = 0;
 
 static inline void _cpu_user_cap_set_locked(void)
 {
@@ -688,7 +688,7 @@ static int tegra_cpu_init(struct cpufreq_policy *policy)
 	target_cpu_speed[policy->cpu] = policy->cur;
 
 	/* FIXME: what's the actual transition time? */
-	policy->cpuinfo.transition_latency = 300 * 1000;
+	policy->cpuinfo.transition_latency = 30 * 1000;
 
 	policy->shared_type = CPUFREQ_SHARED_TYPE_ALL;
 	cpumask_copy(policy->related_cpus, cpu_possible_mask);
@@ -696,6 +696,8 @@ static int tegra_cpu_init(struct cpufreq_policy *policy)
 	if (policy->cpu == 0) {
 		register_pm_notifier(&tegra_cpu_pm_notifier);
 	}
+
+	policy->max = 1300000;
 
 	return 0;
 }
