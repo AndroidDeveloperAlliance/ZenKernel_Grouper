@@ -36,7 +36,7 @@
 #endif
 
 #if CRC_BE_BITS > 8
-# define tole(x) (__force u32) __constant_cpu_to_le32(x)
+# define tobe(x) (__force u32) __constant_cpu_to_be32(x)
 #else
 # define tobe(x) (x)
 #endif
