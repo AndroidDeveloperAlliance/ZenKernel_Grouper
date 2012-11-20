@@ -699,6 +699,7 @@ static int tegra_cpu_init(struct cpufreq_policy *policy)
 	}
 
 	if (coldstart == true) {
+		policy->min = 102000;
 		policy->max = 1300000;
 		coldstart = false;
 	}
