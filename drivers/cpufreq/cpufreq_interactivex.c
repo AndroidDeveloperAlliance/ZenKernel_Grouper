@@ -475,7 +475,7 @@ static void interactivex_suspend(int suspend)
 		    continue;
 		  __cpufreq_driver_target(pcpu->policy, suspendfreq, CPUFREQ_RELATION_H);
 		}
-		for_each_cpu_not(cpu) {
+		for_each_cpu_not(cpu, cpu_online_mask) {
 			if (cpu == 0) continue;
 			cpu_down(cpu);
 			pr_info("CPU %d down!", cpu);
