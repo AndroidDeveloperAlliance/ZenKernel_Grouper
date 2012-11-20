@@ -165,34 +165,21 @@ static unsigned int get_nr_run_avg(void)
 #define DEF_START_DELAY				(0)
 
 #define UP_THRESHOLD_AT_MIN_FREQ		(40)
-#define FREQ_FOR_RESPONSIVENESS			(400000)
+#define FREQ_FOR_RESPONSIVENESS			(456000)
 
 #define HOTPLUG_DOWN_INDEX			(0)
 #define HOTPLUG_UP_INDEX			(1)
 
-#ifdef CONFIG_MACH_MIDAS
 static int hotplug_rq[4][2] = {
 	{0, 100}, {100, 200}, {200, 300}, {300, 0}
 };
 
 static int hotplug_freq[4][2] = {
-	{0, 500000},
-	{200000, 500000},
-	{200000, 500000},
-	{200000, 0}
+	{0, 456000},
+	{102000, 456000},
+	{102000, 456000},
+	{102000, 0}
 };
-#else
-static int hotplug_rq[4][2] = {
-	{0, 100}, {100, 200}, {200, 300}, {300, 0}
-};
-
-static int hotplug_freq[4][2] = {
-	{0, 500000},
-	{200000, 500000},
-	{200000, 500000},
-	{200000, 0}
-};
-#endif
 
 static unsigned int min_sampling_rate;
 
