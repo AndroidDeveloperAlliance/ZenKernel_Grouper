@@ -256,7 +256,6 @@ static void cpufreq_interactivex_idle_start(void)
 			pcpu->timer_idlecancel = 0;
 			cpufreq_interactivex_timer_resched(pcpu);
 		}
-#endif
 	} else if (governidle) {
 		/*
 		 * If at min speed and entering idle after load has
@@ -356,7 +355,7 @@ static ssize_t store_hispeed_freq(struct kobject *kobj,
 				  size_t count)
 {
 	int ret;
-	long unsinged int val;
+	long unsigned int val;
 
 	ret = strict_strtoul(buf, 0, &val);
 	if (ret < 0)
@@ -455,9 +454,12 @@ static void interactivex_suspend(int suspend)
         struct cpufreq_interactivex_cpuinfo *pcpu;
 
         if (!enabled) return;
-	  if (!suspend) { 
-		mutex_lock(&set_speed_lock);
-		if (num_online_cpus() < 2) cpu_up(1);
+	  if (!suspend) {
+		for_each_online_cpu(cpu) {
+			if (cpu == 0) continue;
+			cpu_up(cpu);
+			pr_info("CPU %d awoken!", cpu);
+		}
 		for_each_cpu(cpu, &tmp_mask) {
 		  pcpu = &per_cpu(cpuinfo, cpu);
 		  smp_rmb();
@@ -465,10 +467,7 @@ static void interactivex_suspend(int suspend)
 		    continue;
 		  __cpufreq_driver_target(pcpu->policy, hispeed_freq, CPUFREQ_RELATION_L);
 		}
-		mutex_unlock(&set_speed_lock);
-                pr_info("[imoseyon] interactivex awake cpu1 up\n");
 	  } else {
-		mutex_lock(&set_speed_lock);
 		for_each_cpu(cpu, &tmp_mask) {
 		  pcpu = &per_cpu(cpuinfo, cpu);
 		  smp_rmb();
@@ -476,9 +475,11 @@ static void interactivex_suspend(int suspend)
 		    continue;
 		  __cpufreq_driver_target(pcpu->policy, suspendfreq, CPUFREQ_RELATION_H);
 		}
-		if (num_online_cpus() > 1) cpu_down(1);
-		mutex_unlock(&set_speed_lock);
-                pr_info("[imoseyon] interactivex suspended cpu1 down\n");
+		for_each_cpu_not(cpu) {
+			if (cpu == 0) continue;
+			cpu_down(cpu);
+			pr_info("CPU %d down!", cpu);
+		}
 	  }
 }
 
